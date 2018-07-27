@@ -14,15 +14,15 @@ class TextureStorage {
   // Хранит один экземпляр(ы) текстуры для каждого типа клетки статически.
   
   public:
-    struct LoadTextureParams {
+    struct TextureParams {
         std::string name;
         bool is_repeated;
     };
     
     
     // Конструкторы, загружающие указанные текстуры из папки Textures/
-    TextureStorage(std::vector<LoadTextureParams> params);
-    TextureStorage(LoadTextureParams params);
+    TextureStorage(std::vector<TextureParams> params);
+    TextureStorage(TextureParams params);
     
     // Выдать конкретную текстуру.
     sf::Texture const& operator[] (size_t texture_index) const;

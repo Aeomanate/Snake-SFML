@@ -31,7 +31,7 @@ class EatFiller: public Filler {
   
   private:
     inline static TextureStorage texture {
-        TextureStorage::LoadTextureParams{"Eat.png", false}
+        TextureStorage::TextureParams{"Eat.png", false}
     };
 };
 

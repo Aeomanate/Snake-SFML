@@ -31,7 +31,7 @@ class Head: public Filler {
     
   private:
     inline static TextureStorage texture {
-        TextureStorage::LoadTextureParams{"Head.png", false}
+        TextureStorage::TextureParams{"Head.png", false}
     };
 };
 

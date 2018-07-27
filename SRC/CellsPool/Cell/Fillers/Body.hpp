@@ -30,7 +30,7 @@ class Body: public Filler {
   
   private:
     inline static TextureStorage texture {
-        TextureStorage::LoadTextureParams{"Body.png", false}
+        TextureStorage::TextureParams{"Body.png", false}
     };
 };
 
