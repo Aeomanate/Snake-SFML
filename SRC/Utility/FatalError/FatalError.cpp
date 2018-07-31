@@ -6,15 +6,16 @@
 #include <mutex>
 #include <windows.h>
 
-#include "ErrorPrinter.hpp"
+#include "FatalError.hpp"
 
 static std::mutex error_mutex;
 
-ErrorPrinter::
-ErrorPrinter(std::string cause): cause(cause) { }
+FatalError::
+FatalError(std::string cause): cause(cause) { }
 
-void ErrorPrinter::
+void FatalError::
 print() {
+    // Может вызываться из разных потоков.
     std::lock_guard<std::mutex> lock(error_mutex);
     
     ShowWindow(GetConsoleWindow(), SW_SHOW);

@@ -9,11 +9,15 @@
 #include "BonusManager/Bonus/Bonus.hpp"
 #include "Utility/Timer.hpp"
 
-class Eat: public Bonus {
+class AddChapter: public Bonus {
+    // Бонус типа "еда" - при взятии увеличивает количество частей змейки.
+    
   public:
-    Eat(Snake& snake);
+    using Bonus::Bonus;
     
     bool activate() override;
+    
+    // Функции для управления едой на поле из менеджера бонусов.
     static bool isExist();
     static bool isTacked();
     
@@ -24,7 +28,11 @@ class Eat: public Bonus {
     static const LazyCreator lazy_creator;
     static const LazyDestroyer bonus_destroy_notify;
     
+    // Бонус еды имеет не ограниченное время жизни.
+    // TODO: По крайней мере, пока этот бонус только один.
     inline static Timer<> existence_timer = { Timer<>::maxInterval() };
+    
+    //
     inline static std::atomic<bool> is_tacked = true;
 };
 

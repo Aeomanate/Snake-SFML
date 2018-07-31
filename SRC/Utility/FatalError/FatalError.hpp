@@ -7,11 +7,11 @@
 
 #include <string>
 
-class ErrorPrinter {
+class FatalError {
     // Реализует обработку фатального исключения.
     
   public:
-    ErrorPrinter(std::string cause);
+    FatalError(std::string cause);
     void print();
   
   private:

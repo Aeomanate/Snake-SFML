@@ -7,16 +7,16 @@
 
 #include <functional>
 #include "CellsPool/Cell/Filler/Filler.hpp"
-#include "BonusManager/Eat/Eat.hpp"
+#include "BonusManager/AddChapter/AddChapter.hpp"
 
 class DefaultRectangle;
 class Bonus;
 class Snake;
 
-class EatFiller: public Filler {
+class Eat: public Filler {
   public:
-    template <class BonusType = Eat>
-    EatFiller(DefaultRectangle const& default_rectangle, Coord const& coord)
+    template <class BonusType = AddChapter>
+    Eat(DefaultRectangle const& default_rectangle, Coord const& coord)
     : Filler(
           default_rectangle, coord, texture,
           BonusType::getBonusCreator(),

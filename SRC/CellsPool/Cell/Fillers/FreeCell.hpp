@@ -10,7 +10,7 @@
 
 class Snake;
 
-class FreeCellFiller: public Filler {
+class FreeCell: public Filler {
     // * Заполнитель по-умолчанию. Это клетка,
     //   доступная к перемещению на неё.
     // * Текстуру поля в одну клетку не засунешь - в пустой клетке отсутствует.
@@ -18,7 +18,7 @@ class FreeCellFiller: public Filler {
     
   public:
     template <class BonusType = Move>
-    FreeCellFiller(
+    FreeCell(
         DefaultRectangle const& default_rectangle, Coord const& coord
     ): Filler(
         default_rectangle, coord, sf::Texture() /* Пустая */,
