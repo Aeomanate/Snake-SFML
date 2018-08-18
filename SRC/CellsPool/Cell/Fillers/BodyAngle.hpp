@@ -2,35 +2,31 @@
 // Created by Lyosha12 on 24.06.2018.
 //
 
-#ifndef SNAKE_BODY_HPP
-#define SNAKE_BODY_HPP
+#ifndef SNAKE_BODYANGLE_HPP
+#define SNAKE_BODYANGLE_HPP
 
-#include <functional>
 #include "BonusManager/SteppedOnBody/SteppedOnBody.hpp"
 #include "CellsPool/Cell/Filler/Filler.hpp"
 
-class DefaultRectangle;
-class Bonus;
-class Snake;
-
-class Body: public Filler {
+class BodyAngle: public Filler {
   public:
     template <class BonusType = SteppedOnBody>
-    Body(DefaultRectangle const& default_rectangle, Coord const& coord)
+    BodyAngle(SpriteMaker sprite_maker)
     : Filler(
-          default_rectangle, coord, texture,
+          sprite_maker(texture),
           BonusType::getBonusCreator(),
           BonusType::getBonusDestroyer(),
           CanBeTake::No
       )
     { }
     
+    inline static const Coord orientation = {1, 1};
   
   private:
     inline static TextureStorage texture {
-        TextureStorage::TextureParams{"Body.png", false}
+        TextureStorage::TextureParams{"BodyAngle.png", false}
     };
 };
 
 
-#endif //SNAKE_BODY_HPP
+#endif //SNAKE_BODYANGLE_HPP
