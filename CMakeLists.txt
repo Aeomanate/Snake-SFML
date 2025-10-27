@@ -2,21 +2,33 @@ cmake_minimum_required(VERSION 3.12)
 project(Snake)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++17 -pedantic -Wall -Wextra")
-if(CMAKE_BUILD_TYPE MATCHES Release)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
-endif()
 
+if (CMAKE_BUILD_TYPE MATCHES Release)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
+    set(SFML_STATIC_LIBRARIES FALSE)
+endif ()
+
+# Adding ico to exe
+if (MINGW)
+    set(CMAKE_RC_COMPILER_INIT windres)
+    ENABLE_LANGUAGE(RC)
+    SET(CMAKE_RC_COMPILE_OBJECT "<CMAKE_RC_COMPILER> <FLAGS> <DEFINES> -o <OBJECT> <SOURCE>")
+endif (MINGW)
+
+include(FetchContent)
+FetchContent_Declare(SFML
+        GIT_REPOSITORY https://github.com/SFML/SFML.git
+        GIT_TAG 3.0.2
+        GIT_SHALLOW ON
+        EXCLUDE_FROM_ALL
+        SYSTEM)
+FetchContent_MakeAvailable(SFML)
+
+# Project files
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/Executable/bin)
 
 include_directories(SRC)
 include_directories(Executable)
-
-# Magic for add ico to exe
-if(MINGW)
-set(CMAKE_RC_COMPILER_INIT windres)
-ENABLE_LANGUAGE(RC)
-SET(CMAKE_RC_COMPILE_OBJECT "<CMAKE_RC_COMPILER> <FLAGS> <DEFINES> -o <OBJECT> <SOURCE>")
-endif(MINGW)
 
 add_executable(${PROJECT_NAME}
         config.rc # Add ico to exe
@@ -120,33 +132,6 @@ add_executable(${PROJECT_NAME}
         SRC/AudioPlayer/SoundPlayer/SoundPlayer.cpp
         SRC/AudioPlayer/SoundPlayer/SoundPlayer.hpp
 
-        )
+)
 
-
-set(SFML_ROOT "D:/Programs/ProgrammingEnvironment/Librares/SFML-2.4.2")
-set(CMAKE_MODULE_PATH "${SFML_ROOT}/cmake/Modules" ${CMAKE_MODULE_PATH})
-set(SFML_STATIC_LIBRARIES FALSE)
-
-find_package(SFML 2 REQUIRED graphics network audio window system)
-if(SFML_FOUND)
-    include_directories(${SFML_INCLUDE_DIR})
-    target_link_libraries(${PROJECT_NAME} ${SFML_LIBRARIES} ${SFML_DEPENDENCIES})
-endif()
-
-
-set(BOOST_ROOT "D:/Programs/ProgrammingEnvironment/Librares/boost_1_67_0/Build")
-set(Boost_USE_STATIC_LIBS    OFF)
-find_package(Boost 1.67.0 REQUIRED filesystem system)
-if(Boost_FOUND)
-    include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
-    target_link_libraries(${PROJECT_NAME} ${Boost_LIBRARIES})
-endif()
-
-include(PVS-Studio.cmake)
-pvs_studio_add_target(
-        CFG_TEXT "exclude-path = D:/Programs/ProgrammingEnvironment"
-        TARGET ${PROJECT_NAME}.analyze ALL
-        OUTPUT FORMAT errorfile
-        ANALYZE ${PROJECT_NAME}
-        MODE GA 64 OP
-        LOG target.err)
+target_link_libraries(${PROJECT_NAME} PRIVATE SFML::System SFML::Window SFML::Graphics)
