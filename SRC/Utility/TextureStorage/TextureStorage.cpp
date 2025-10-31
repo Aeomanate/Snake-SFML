@@ -4,7 +4,7 @@
 // Created by Lyosha12 on 20.06.2018.
 //
 
-#include <boost/filesystem.hpp>
+#include <filesystem>
 #include "TextureStorage.hpp"
 
 TextureStorage::TextureStorage(std::vector<TextureParams> params) {
@@ -12,13 +12,13 @@ TextureStorage::TextureStorage(std::vector<TextureParams> params) {
         // Нужно создать текстуру прежде, чем загрузить её представление.
         textures.push_back({});
         
-        boost::filesystem::path texture_path("../Resources/Textures/" + param.name);
-        bool is_valid_path = boost::filesystem::exists(texture_path);
+        std::filesystem::path texture_path("../Resources/Textures/" + param.name);
+        bool is_valid_path = std::filesystem::exists(texture_path);
         bool is_loaded = textures.back().loadFromFile(texture_path.string());
         
         if(!is_valid_path || !is_loaded) {
             textures.pop_back();
-            boost::filesystem::path cur_path = boost::filesystem::current_path();
+            std::filesystem::path cur_path = std::filesystem::current_path();
             throw std::runtime_error(
                 "Could not found '" + texture_path.string() + "'. " +
                 "Current executable path: '" + cur_path.string() + "'"

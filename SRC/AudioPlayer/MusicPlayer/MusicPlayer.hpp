@@ -10,13 +10,13 @@
 #include <vector>
 
 #include <SFML/Audio.hpp>
-#include <boost/filesystem.hpp>
+#include <filesystem>
 
 #include "Utility/RandomSort.hpp"
 
 #include "Utility/RandomGenerator/RandomGenerator.hpp"
 
-namespace fs = boost::filesystem;
+namespace fs = std::filesystem;
 
 #include "Utility/Timer.hpp"
 

@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.12)
 project(Snake)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++17 -pedantic -Wall -Wextra")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++26 -pedantic -Wall -Wextra")
 
 if (CMAKE_BUILD_TYPE MATCHES Release)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
@@ -12,7 +12,7 @@ endif ()
 if (MINGW)
     set(CMAKE_RC_COMPILER_INIT windres)
     ENABLE_LANGUAGE(RC)
-    SET(CMAKE_RC_COMPILE_OBJECT "<CMAKE_RC_COMPILER> <FLAGS> <DEFINES> -o <OBJECT> <SOURCE>")
+    SET(CMAKE_RC_COMPILE_OBJECT "<CMAKE_RC_COMPILER> <FLAGS> <DEFINES> <INCLUDES> -o <OBJECT> <SOURCE>")
 endif (MINGW)
 
 include(FetchContent)
@@ -132,6 +132,7 @@ add_executable(${PROJECT_NAME}
         SRC/AudioPlayer/SoundPlayer/SoundPlayer.cpp
         SRC/AudioPlayer/SoundPlayer/SoundPlayer.hpp
 
+        SRC/Utility/FixesSFML.h
 )
 
-target_link_libraries(${PROJECT_NAME} PRIVATE SFML::System SFML::Window SFML::Graphics)
+target_link_libraries(${PROJECT_NAME} PRIVATE SFML::System SFML::Window SFML::Graphics SFML::Audio)

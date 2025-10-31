@@ -5,46 +5,49 @@
 //
 
 #include <thread>
+#include <optional>
 
 #include "WindowForTests.hpp"
+#include "Utility/FixesSFML.h"
 
 WindowForTests::
 WindowForTests(sf::VideoMode screen, sf::Drawable const& drawable)
-: mode_for_test(
-    static_cast<unsigned>(screen.width*scale_input),
-    static_cast<unsigned>(screen.height*scale_input)
-  )
+: mode_for_test(screen.size * scale_input)
 , window(mode_for_test, "Test Window")
 , drawable(drawable)
-{ window.setFramerateLimit(30); }
+{
+    window.setFramerateLimit(30);
+}
 
 void WindowForTests::
-run() {
-    while(window.isOpen()) {
+run()
+{
+    while (window.isOpen())
+    {
         handling_events();
         draw();
     }
 }
 
 
+void WindowForTests::operator()(const sf::Event::Closed&)
+{
+    window.close();
+};
+
 void WindowForTests::
-handling_events() {
-    sf::Event event;
-    while(window.pollEvent(event)) {
-        switch(event.type) {
-            case sf::Event::EventType::Closed:
-                window.close();
-                break;
-            
-            default:
-                break;
-        }
+handling_events()
+{
+    while (const std::optional event = window.pollEvent())
+    {
+        event->visit(*this);
     }
 }
 
 void WindowForTests::
-draw() {
-    window.clear({128, 128, 128});
-    window.draw(drawable, sf::Transform().translate(window.getSize().x/15, window.getSize().y/15));
+draw()
+{
+    window.clear({ 128, 128, 128 });
+    window.draw(drawable, sf::Transform().translate(window.getSize() / 15.f));
     window.display();
 }
